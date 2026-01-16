@@ -274,23 +274,14 @@ export function createPanel(callbacks: PanelCallbacks): HTMLElement {
 
         textarea.addEventListener('mousedown', (e) => {
           e.stopPropagation();
-          textarea.focus();
-        }, true);
+        });
 
         textarea.addEventListener('mouseup', (e) => {
           e.stopPropagation();
-        }, true);
+        });
 
         textarea.addEventListener('click', (e) => {
           e.stopPropagation();
-        }, true);
-
-        textarea.addEventListener('focus', () => {
-          currentCommentTextarea = textarea;
-        });
-
-        textarea.addEventListener('blur', () => {
-          currentCommentTextarea = null;
         });
 
         textarea.addEventListener('input', (e) => {

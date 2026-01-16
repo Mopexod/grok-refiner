@@ -35,11 +35,15 @@ export async function loadState(): Promise<StoredState> {
           return;
         }
 
+        // Явное приведение типов для устранения ошибок TS
+        const edits = Array.isArray(stored.edits) ? (stored.edits as EditItem[]) : [];
+        const presets = Array.isArray(stored.presets) ? (stored.presets as PresetItem[]) : DEFAULT_PRESETS;
+
         resolve({
-          edits: (stored.edits as any[]) ?? [],
-          presets: (stored.presets as any[]) ?? DEFAULT_PRESETS,
+          edits,
+          presets,
           lastUsedPlatform: (stored.lastUsedPlatform as any) ?? 'grok',
-          collapsed: (stored.collapsed as boolean) ?? false,
+          collapsed: !!stored.collapsed,
         });
       });
     } catch (err) {

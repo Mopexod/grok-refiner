@@ -56,7 +56,7 @@
   // src/storage.ts
   var STORAGE_KEY = "grokRefinerState";
   var DEFAULT_PRESETS = [
-    { id: "1", label: "Grok Preset 1", content: "Sample preset for Grok" }
+    { id: "1", label: "Grok Preset 1", text: "Sample preset for Grok" }
   ];
   var DEFAULT_STATE = {
     edits: [],
@@ -78,15 +78,17 @@
             return;
           }
           const stored = result[STORAGE_KEY];
-          if (!stored) {
+          if (!stored || typeof stored !== "object") {
             resolve({ ...DEFAULT_STATE });
             return;
           }
+          const edits = Array.isArray(stored.edits) ? stored.edits : [];
+          const presets = Array.isArray(stored.presets) ? stored.presets : DEFAULT_PRESETS;
           resolve({
-            edits: stored.edits ?? [],
-            presets: stored.presets ?? DEFAULT_PRESETS,
+            edits,
+            presets,
             lastUsedPlatform: stored.lastUsedPlatform ?? "grok",
-            collapsed: stored.collapsed ?? false
+            collapsed: !!stored.collapsed
           });
         });
       } catch (err) {
@@ -263,9 +265,9 @@
     }
     .button {
       padding: 6px 10px;
-      background: #4f9cff;
-      color: #fff;
-      border: none;
+      background: #1c2331;
+      color: #f5f5f5;
+      border: 1px solid #3b4250;
       border-radius: 4px;
       font-size: 12px;
       font-weight: 600;
@@ -274,7 +276,7 @@
       white-space: nowrap;
     }
     .button:hover {
-      background: #3d8aeb;
+      background: #242b3a;
     }
   `;
     const wrapper = document.createElement("div");
@@ -289,48 +291,47 @@
   }
   window.addEventListener("message", (event) => {
     const data = event.data;
-    if (!data || data.source !== "grokRefiner_panel") return;
-    if (data.type === "requestState") {
-      sendStateToPanel();
-      return;
-    }
-    if (data.type === "updateEdit") {
-      const edit = state.edits.find((e) => e.id === data.editId);
-      if (edit) {
-        Object.assign(edit, data.changes);
+    if (!data || typeof data !== "object" || !("source" in data) || data.source !== "grokRefiner_panel") return;
+    switch (data.type) {
+      case "requestState":
+        sendStateToPanel();
+        break;
+      case "updateEdit": {
+        const edit = state.edits.find((e) => e.id === data.editId);
+        if (edit) {
+          Object.assign(edit, data.changes);
+          saveState(state);
+        }
+        break;
+      }
+      case "deleteEdit":
+        state.edits = state.edits.filter((e) => e.id !== data.editId);
+        if (activeEditId === data.editId) {
+          activeEditId = null;
+        }
         saveState(state);
         rerenderPanel();
+        break;
+      case "moveEdit": {
+        const idx = state.edits.findIndex((e) => e.id === data.editId);
+        if (idx !== -1) {
+          const newIdx = data.direction === "up" ? idx - 1 : idx + 1;
+          if (newIdx >= 0 && newIdx < state.edits.length) {
+            const tmp = state.edits[idx];
+            state.edits[idx] = state.edits[newIdx];
+            state.edits[newIdx] = tmp;
+            saveState(state);
+            rerenderPanel();
+          }
+        }
+        break;
       }
-      return;
-    }
-    if (data.type === "deleteEdit") {
-      state.edits = state.edits.filter((e) => e.id !== data.editId);
-      if (activeEditId === data.editId) {
-        activeEditId = null;
-      }
-      saveState(state);
-      rerenderPanel();
-      return;
-    }
-    if (data.type === "moveEdit") {
-      const idx = state.edits.findIndex((e) => e.id === data.editId);
-      if (idx === -1) return;
-      const newIdx = data.direction === "up" ? idx - 1 : idx + 1;
-      if (newIdx < 0 || newIdx >= state.edits.length) return;
-      const tmp = state.edits[idx];
-      state.edits[idx] = state.edits[newIdx];
-      state.edits[newIdx] = tmp;
-      saveState(state);
-      rerenderPanel();
-      return;
-    }
-    if (data.type === "copySingle") {
-      handleCopySingle(data.editId);
-      return;
-    }
-    if (data.type === "setActiveEdit") {
-      activeEditId = data.editId;
-      return;
+      case "copySingle":
+        handleCopySingle(data.editId);
+        break;
+      case "setActiveEdit":
+        activeEditId = data.editId;
+        break;
     }
   });
   var floatingButtonHost = null;
@@ -362,12 +363,14 @@
     currentSelection = null;
   }
   function handleAddEdit() {
-    if (!currentSelection) return;
+    if (!currentSelection || !adapter) return;
     const snippet = currentSelection.snippet;
     const newEdit = {
       id: Date.now().toString(),
+      sourcePlatform: adapter.id,
       snippet,
-      comment: ""
+      comment: "",
+      createdAt: Date.now()
     };
     state.edits.push(newEdit);
     saveState(state);
@@ -451,18 +454,6 @@ ${text}` : text;
           hideFloatingButton();
           return;
         }
-        const containers = adapter.getMessageContainers(document.body);
-        let insideMessage = false;
-        for (const container of containers) {
-          if (container.contains(range.commonAncestorContainer)) {
-            insideMessage = true;
-            break;
-          }
-        }
-        if (!insideMessage) {
-          hideFloatingButton();
-          return;
-        }
         showFloatingButton(text, range);
       }, 50);
     });
@@ -470,8 +461,9 @@ ${text}` : text;
       if (!floatingButtonHost) return;
       const shadow = floatingButtonHost.shadowRoot;
       if (!shadow) return;
+      const path = e.composedPath();
       const btn = shadow.querySelector(".button");
-      if (btn && btn.contains(e.target)) {
+      if (btn && path.includes(btn)) {
         return;
       }
       hideFloatingButton();

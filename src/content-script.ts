@@ -232,6 +232,7 @@ function createFloatingButton(): HTMLElement {
 
 window.addEventListener('message', (event: MessageEvent) => {
   const data = event.data as PanelFromIframeMessage | undefined;
+  // Исправляем проверку, чтобы TS не ругался на отсутствие поля в undefined
   if (!data || typeof data !== 'object' || !('source' in data) || data.source !== 'grokRefiner_panel') return;
 
   switch (data.type) {
