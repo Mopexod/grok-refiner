@@ -445,8 +445,10 @@ function observeSelection() {
     const shadow = floatingButtonHost.shadowRoot;
     if (!shadow) return;
 
-    const btn = shadow.querySelector('.button') as HTMLElement;
-    if (btn && btn.contains(e.target as Node)) {
+    const path = e.composedPath();
+    const btn = shadow.querySelector('.button');
+    
+    if (btn && path.includes(btn)) {
       return;
     }
 

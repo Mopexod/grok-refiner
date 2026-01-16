@@ -4,7 +4,7 @@ import type { StoredState } from './types';
 const STORAGE_KEY = 'grokRefinerState';
 
 const DEFAULT_PRESETS = [
-  { id: '1', label: 'Grok Preset 1', content: 'Sample preset for Grok' },
+  { id: '1', label: 'Grok Preset 1', text: 'Sample preset for Grok' },
 ];
 
 const DEFAULT_STATE: StoredState = {
