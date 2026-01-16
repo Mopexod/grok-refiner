@@ -1,3 +1,4 @@
+"use strict";
 (() => {
   // src/ui/panel.ts
   function createPanel(callbacks2) {
@@ -331,7 +332,8 @@
   }
   window.addEventListener("message", (event) => {
     const data = event.data;
-    if (!data || data.source !== "grokRefiner_content") return;
+    if (!data || data.source !== "grokRefiner_content")
+      return;
     if (data.type === "state") {
       currentState = data.state;
       activeEditId = data.activeEditId;

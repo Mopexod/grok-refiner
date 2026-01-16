@@ -1,3 +1,4 @@
+"use strict";
 (() => {
   // src/adapters/grokAdapter.ts
   var GrokAdapter = {
@@ -21,11 +22,13 @@
     },
     observeNewMessages(callback) {
       const root = document.body;
-      if (!root) return;
+      if (!root)
+        return;
       const observer = new MutationObserver((mutations) => {
         for (const mut of mutations) {
           mut.addedNodes.forEach((node) => {
-            if (!(node instanceof HTMLElement)) return;
+            if (!(node instanceof HTMLElement))
+              return;
             const containers = this.getMessageContainers(node);
             containers.forEach((c) => callback(c));
           });
@@ -66,39 +69,38 @@
   };
   async function loadState() {
     return new Promise((resolve) => {
-      if (!chrome?.storage?.local) {
+      const storage = typeof chrome !== "undefined" && chrome.storage ? chrome.storage.local : null;
+      if (!storage) {
         resolve({ ...DEFAULT_STATE });
         return;
       }
-      try {
-        chrome.storage.local.get([STORAGE_KEY], (result) => {
-          if (chrome.runtime.lastError) {
-            console.warn("grokRefiner: storage get error", chrome.runtime.lastError);
-            resolve({ ...DEFAULT_STATE });
-            return;
-          }
-          const stored = result[STORAGE_KEY];
-          if (!stored || typeof stored !== "object") {
-            resolve({ ...DEFAULT_STATE });
-            return;
-          }
-          const edits = Array.isArray(stored.edits) ? stored.edits : [];
-          const presets = Array.isArray(stored.presets) ? stored.presets : DEFAULT_PRESETS;
-          resolve({
-            edits,
-            presets,
-            lastUsedPlatform: stored.lastUsedPlatform ?? "grok",
-            collapsed: !!stored.collapsed
-          });
+      storage.get([STORAGE_KEY], (result) => {
+        if (typeof chrome !== "undefined" && chrome.runtime?.lastError) {
+          console.warn("grokRefiner: storage get error", chrome.runtime.lastError);
+          resolve({ ...DEFAULT_STATE });
+          return;
+        }
+        const stored = result[STORAGE_KEY];
+        if (!stored || typeof stored !== "object") {
+          resolve({ ...DEFAULT_STATE });
+          return;
+        }
+        const edits = Array.isArray(stored.edits) ? stored.edits : [];
+        const presets = Array.isArray(stored.presets) ? stored.presets : DEFAULT_PRESETS;
+        const lastUsedPlatform = stored.lastUsedPlatform === "claude" || stored.lastUsedPlatform === "grok" ? stored.lastUsedPlatform : "grok";
+        const collapsed = typeof stored.collapsed === "boolean" ? stored.collapsed : false;
+        resolve({
+          edits,
+          presets,
+          lastUsedPlatform,
+          collapsed
         });
-      } catch (err) {
-        console.warn("grokRefiner: storage get exception", err);
-        resolve({ ...DEFAULT_STATE });
-      }
+      });
     });
   }
   function saveState(state2) {
-    if (!chrome?.storage?.local) return;
+    if (!chrome?.storage?.local)
+      return;
     try {
       chrome.storage.local.set({ [STORAGE_KEY]: state2 }, () => {
         if (chrome.runtime.lastError) {
@@ -222,7 +224,8 @@
   }
   function applyLayout() {
     const wrapper = document.getElementById("grok-refiner-panel-wrapper");
-    if (!wrapper) return;
+    if (!wrapper)
+      return;
     if (isCollapsed()) {
       wrapper.classList.add("collapsed");
     } else {
@@ -233,7 +236,8 @@
     const iframe = document.getElementById(
       "grok-refiner-panel-iframe"
     );
-    if (!iframe || !iframe.contentWindow) return;
+    if (!iframe || !iframe.contentWindow)
+      return;
     const msg = {
       source: "grokRefiner_content",
       type: "state",
@@ -291,31 +295,35 @@
   }
   window.addEventListener("message", (event) => {
     const data = event.data;
-    if (!data || typeof data !== "object" || !("source" in data) || data.source !== "grokRefiner_panel") return;
-    switch (data.type) {
+    if (!data || typeof data !== "object" || data.source !== "grokRefiner_panel") {
+      return;
+    }
+    const msg = data;
+    switch (msg.type) {
       case "requestState":
         sendStateToPanel();
         break;
       case "updateEdit": {
-        const edit = state.edits.find((e) => e.id === data.editId);
+        const edit = state.edits.find((e) => e.id === msg.editId);
         if (edit) {
-          Object.assign(edit, data.changes);
+          Object.assign(edit, msg.changes);
           saveState(state);
         }
         break;
       }
-      case "deleteEdit":
-        state.edits = state.edits.filter((e) => e.id !== data.editId);
-        if (activeEditId === data.editId) {
+      case "deleteEdit": {
+        state.edits = state.edits.filter((e) => e.id !== msg.editId);
+        if (activeEditId === msg.editId) {
           activeEditId = null;
         }
         saveState(state);
         rerenderPanel();
         break;
+      }
       case "moveEdit": {
-        const idx = state.edits.findIndex((e) => e.id === data.editId);
+        const idx = state.edits.findIndex((e) => e.id === msg.editId);
         if (idx !== -1) {
-          const newIdx = data.direction === "up" ? idx - 1 : idx + 1;
+          const newIdx = msg.direction === "up" ? idx - 1 : idx + 1;
           if (newIdx >= 0 && newIdx < state.edits.length) {
             const tmp = state.edits[idx];
             state.edits[idx] = state.edits[newIdx];
@@ -326,12 +334,14 @@
         }
         break;
       }
-      case "copySingle":
-        handleCopySingle(data.editId);
+      case "copySingle": {
+        handleCopySingle(msg.editId);
         break;
-      case "setActiveEdit":
-        activeEditId = data.editId;
+      }
+      case "setActiveEdit": {
+        activeEditId = msg.editId;
         break;
+      }
     }
   });
   var floatingButtonHost = null;
@@ -363,7 +373,8 @@
     currentSelection = null;
   }
   function handleAddEdit() {
-    if (!currentSelection || !adapter) return;
+    if (!currentSelection || !adapter)
+      return;
     const snippet = currentSelection.snippet;
     const newEdit = {
       id: Date.now().toString(),
@@ -380,12 +391,16 @@
   }
   function handleCopySingle(editId) {
     const edit = state.edits.find((e) => e.id === editId);
-    if (!edit) return;
+    if (!edit)
+      return;
     const text = buildChatText([edit], activePlatform);
-    if (!text) return;
-    if (!adapter) return;
+    if (!text)
+      return;
+    if (!adapter)
+      return;
     const input = adapter.getInputElement();
-    if (!input) return;
+    if (!input)
+      return;
     if (input instanceof HTMLTextAreaElement || input instanceof HTMLInputElement) {
       const current = input.value ?? "";
       const combined = current ? `${current}
@@ -413,7 +428,8 @@ ${text}` : text;
     if (input.getAttribute("contenteditable") === "true") {
       input.focus();
       const selection = window.getSelection();
-      if (!selection) return;
+      if (!selection)
+        return;
       const range = document.createRange();
       range.selectNodeContents(input);
       range.collapse(false);
@@ -458,9 +474,11 @@ ${text}` : text;
       }, 50);
     });
     document.addEventListener("mousedown", (e) => {
-      if (!floatingButtonHost) return;
+      if (!floatingButtonHost)
+        return;
       const shadow = floatingButtonHost.shadowRoot;
-      if (!shadow) return;
+      if (!shadow)
+        return;
       const path = e.composedPath();
       const btn = shadow.querySelector(".button");
       if (btn && path.includes(btn)) {
@@ -472,7 +490,8 @@ ${text}` : text;
   async function init() {
     try {
       adapter = detectPlatform(window.location, document);
-      if (!adapter) return;
+      if (!adapter)
+        return;
       activePlatform = adapter.id;
       state = await loadState();
       setupPanelIframe();
