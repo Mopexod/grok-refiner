@@ -1,0 +1,13 @@
+{
+  "name": "grok-refiner",
+  "version": "0.1.0",
+  "description": "Control surface for Grok LLM",
+  "scripts": {
+    "build": "esbuild src/content-script.ts --bundle --outfile=content-script.js --platform=browser --format=iife --target=chrome100 && esbuild src/panel-main.ts --bundle --outfile=panel.js --platform=browser --format=iife --target=chrome100"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.3"
+  }
+}

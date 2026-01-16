@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+*.log
+
+# Environment
+.env
+.env.local
+*.secret
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Chrome Extension (если есть архивы)
+*.zip
+*.crx
