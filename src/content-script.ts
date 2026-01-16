@@ -362,7 +362,8 @@ function handleCopySingle(editId: string) {
   if (!input) return;
 
   if (input instanceof HTMLTextAreaElement || input instanceof HTMLInputElement) {
-    const current = input.value ?? '';
+    // Обрезаем текущий текст (trimEnd), чтобы не суммировать переносы
+    const current = (input.value ?? '').trimEnd();
     const combined = current ? `${current}\n\n${text}` : text;
 
     input.value = combined;
@@ -377,8 +378,9 @@ function handleCopySingle(editId: string) {
   if (input.tagName.toLowerCase() === 'textbox') {
     input.focus();
 
-    const currentText = input.textContent || '';
-    const textToInsert = currentText.trim() ? `${currentText}\n\n${text}` : text;
+    // Обрезаем текущий текст (trimEnd)
+    const currentText = (input.textContent || '').trimEnd();
+    const textToInsert = currentText ? `${currentText}\n\n${text}` : text;
 
     input.textContent = textToInsert;
 
@@ -400,7 +402,9 @@ function handleCopySingle(editId: string) {
     selection.removeAllRanges();
     selection.addRange(range);
 
-    const textToInsert = input.textContent?.trim() ? `\n\n${text}` : text;
+    // Обрезаем текущий текст (trimEnd)
+    const currentText = (input.textContent || '').trimEnd();
+    const textToInsert = currentText ? `\n\n${text}` : text;
 
     try {
       const ok = document.execCommand('insertText', false, textToInsert);
