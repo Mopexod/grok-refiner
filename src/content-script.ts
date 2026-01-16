@@ -363,7 +363,7 @@ function handleCopySingle(editId: string) {
 
   if (input instanceof HTMLTextAreaElement || input instanceof HTMLInputElement) {
     const current = input.value ?? '';
-    const combined = current ? `${current}\n\n\n${text}` : text;
+    const combined = current ? `${current}\n\n${text}` : text;
 
     input.value = combined;
 
@@ -378,7 +378,7 @@ function handleCopySingle(editId: string) {
     input.focus();
 
     const currentText = input.textContent || '';
-    const textToInsert = currentText.trim() ? `${currentText}\n\n\n${text}` : text;
+    const textToInsert = currentText.trim() ? `${currentText}\n\n${text}` : text;
 
     input.textContent = textToInsert;
 
@@ -400,7 +400,7 @@ function handleCopySingle(editId: string) {
     selection.removeAllRanges();
     selection.addRange(range);
 
-    const textToInsert = input.textContent?.trim() ? `\n\n\n${text}` : text;
+    const textToInsert = input.textContent?.trim() ? `\n\n${text}` : text;
 
     try {
       const ok = document.execCommand('insertText', false, textToInsert);

@@ -16,11 +16,10 @@ export function buildChatText(
     lines.push(`"${singleLineSnippet}"`);
     if (comment) {
       lines.push(comment);
-      lines.push('');
     }
 
     blocks.push(lines.join('\n'));
   });
 
-  return blocks.join('\n');
+  return blocks.join('\n\n');
 }
