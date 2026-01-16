@@ -1,5 +1,5 @@
 // src/storage.ts
-import type { StoredState, PresetItem } from './types';
+import type { StoredState, PresetItem, EditItem } from './types';
 
 const STORAGE_KEY = 'grokRefinerState';
 
@@ -16,36 +16,42 @@ const DEFAULT_STATE: StoredState = {
 
 export async function loadState(): Promise<StoredState> {
   return new Promise((resolve) => {
-    if (!chrome?.storage?.local) {
+    // Проверка существования API более надежным способом
+    const storage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage.local : null;
+
+    if (!storage) {
       resolve({ ...DEFAULT_STATE });
       return;
     }
 
-    try {
-      chrome.storage.local.get([STORAGE_KEY], (result) => {
-        if (chrome.runtime.lastError) {
-          console.warn('grokRefiner: storage get error', chrome.runtime.lastError);
-          resolve({ ...DEFAULT_STATE });
-          return;
-        }
+    storage.get([STORAGE_KEY], (result: Record<string, any>) => {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.lastError) {
+        console.warn('grokRefiner: storage get error', chrome.runtime.lastError);
+        resolve({ ...DEFAULT_STATE });
+        return;
+      }
 
-        const stored = result[STORAGE_KEY] as Record<string, any> | undefined;
-        if (!stored) {
-          resolve({ ...DEFAULT_STATE });
-          return;
-        }
+      const stored = result[STORAGE_KEY];
+      if (!stored || typeof stored !== 'object') {
+        resolve({ ...DEFAULT_STATE });
+        return;
+      }
 
-        resolve({
-          edits: Array.isArray(stored.edits) ? (stored.edits as EditItem[]) : [],
-          presets: Array.isArray(stored.presets) ? (stored.presets as PresetItem[]) : DEFAULT_PRESETS,
-          lastUsedPlatform: (stored.lastUsedPlatform as any) === 'claude' ? 'claude' : 'grok',
-          collapsed: !!stored.collapsed,
-        });
+      // Используем безопасное извлечение с дефолтными значениями
+      const edits = Array.isArray(stored.edits) ? (stored.edits as EditItem[]) : [];
+      const presets = Array.isArray(stored.presets) ? (stored.presets as PresetItem[]) : DEFAULT_PRESETS;
+      const lastUsedPlatform = (stored.lastUsedPlatform === 'claude' || stored.lastUsedPlatform === 'grok') 
+        ? (stored.lastUsedPlatform as 'grok' | 'claude') 
+        : 'grok';
+      const collapsed = typeof stored.collapsed === 'boolean' ? stored.collapsed : false;
+
+      resolve({
+        edits,
+        presets,
+        lastUsedPlatform,
+        collapsed,
       });
-    } catch (err) {
-      console.warn('grokRefiner: storage get exception', err);
-      resolve({ ...DEFAULT_STATE });
-    }
+    });
   });
 }
 

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "node",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "types": ["chrome"],
+    "skipLibCheck": true,
+    "noImplicitAny": false
+  },
+  "include": ["src/**/*"]
+}
