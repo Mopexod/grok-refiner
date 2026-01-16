@@ -202,9 +202,9 @@ function createFloatingButton(): HTMLElement {
     }
     .button {
       padding: 6px 10px;
-      background: #4f9cff;
-      color: #fff;
-      border: none;
+      background: #1c2331;
+      color: #f5f5f5;
+      border: 1px solid #3b4250;
       border-radius: 4px;
       font-size: 12px;
       font-weight: 600;
@@ -213,7 +213,7 @@ function createFloatingButton(): HTMLElement {
       white-space: nowrap;
     }
     .button:hover {
-      background: #3d8aeb;
+      background: #242b3a;
     }
   `;
 
@@ -323,14 +323,16 @@ function hideFloatingButton() {
 }
 
 function handleAddEdit() {
-  if (!currentSelection) return;
+  if (!currentSelection || !adapter) return;
 
   const snippet = currentSelection.snippet;
 
   const newEdit: EditItem = {
     id: Date.now().toString(),
+    sourcePlatform: adapter.id as 'grok' | 'claude',
     snippet,
     comment: '',
+    createdAt: Date.now(),
   };
 
   state.edits.push(newEdit);
