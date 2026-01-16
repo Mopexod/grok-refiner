@@ -433,20 +433,6 @@ function observeSelection() {
         return;
       }
 
-      const containers = adapter.getMessageContainers(document.body);
-      let insideMessage = false;
-      for (const container of containers) {
-        if (container.contains(range.commonAncestorContainer)) {
-          insideMessage = true;
-          break;
-        }
-      }
-
-      if (!insideMessage) {
-        hideFloatingButton();
-        return;
-      }
-
       showFloatingButton(text, range);
     }, 50);
   });
