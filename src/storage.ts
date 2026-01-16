@@ -29,20 +29,16 @@ export async function loadState(): Promise<StoredState> {
           return;
         }
 
-        const stored = result[STORAGE_KEY];
-        if (!stored || typeof stored !== 'object') {
+        const stored = result[STORAGE_KEY] as Record<string, any> | undefined;
+        if (!stored) {
           resolve({ ...DEFAULT_STATE });
           return;
         }
 
-        // Явное приведение типов для устранения ошибок TS
-        const edits = Array.isArray(stored.edits) ? (stored.edits as EditItem[]) : [];
-        const presets = Array.isArray(stored.presets) ? (stored.presets as PresetItem[]) : DEFAULT_PRESETS;
-
         resolve({
-          edits,
-          presets,
-          lastUsedPlatform: (stored.lastUsedPlatform as any) ?? 'grok',
+          edits: Array.isArray(stored.edits) ? (stored.edits as EditItem[]) : [],
+          presets: Array.isArray(stored.presets) ? (stored.presets as PresetItem[]) : DEFAULT_PRESETS,
+          lastUsedPlatform: (stored.lastUsedPlatform as any) === 'claude' ? 'claude' : 'grok',
           collapsed: !!stored.collapsed,
         });
       });

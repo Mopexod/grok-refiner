@@ -231,38 +231,45 @@ function createFloatingButton(): HTMLElement {
 }
 
 window.addEventListener('message', (event: MessageEvent) => {
-  const data = event.data as PanelFromIframeMessage | undefined;
-  // Исправляем проверку, чтобы TS не ругался на отсутствие поля в undefined
-  if (!data || typeof data !== 'object' || !('source' in data) || data.source !== 'grokRefiner_panel') return;
+  // Безопасное извлечение данных
+  const rawData = event.data;
+  if (!rawData || typeof rawData !== 'object' || rawData.source !== 'grokRefiner_panel') {
+    return;
+  }
 
+  const data = rawData as PanelFromIframeMessage;
+  
   switch (data.type) {
     case 'requestState':
       sendStateToPanel();
       break;
 
     case 'updateEdit': {
-      const edit = state.edits.find((e) => e.id === data.editId);
+      const msg = data as Extract<PanelFromIframeMessage, { type: 'updateEdit' }>;
+      const edit = state.edits.find((e) => e.id === msg.editId);
       if (edit) {
-        Object.assign(edit, data.changes);
+        Object.assign(edit, msg.changes);
         saveState(state);
-        // Мы не вызываем rerenderPanel для updateEdit, чтобы сохранить фокус в iframe
       }
       break;
     }
 
-    case 'deleteEdit':
-      state.edits = state.edits.filter((e) => e.id !== data.editId);
-      if (activeEditId === data.editId) {
+    case 'deleteEdit': {
+      const msg = data as Extract<PanelFromIframeMessage, { type: 'deleteEdit' }>;
+      state.edits = state.edits.filter((e) => e.id !== msg.editId);
+      if (activeEditId === msg.editId) {
         activeEditId = null;
       }
       saveState(state);
       rerenderPanel();
       break;
+    }
 
     case 'moveEdit': {
-      const idx = state.edits.findIndex((e) => e.id === data.editId);
+      const msg = data as Extract<PanelFromIframeMessage, { type: 'moveEdit' }>;
+      const idx = state.edits.findIndex((e) => e.id === msg.editId);
       if (idx !== -1) {
-        const newIdx = data.direction === 'up' ? idx - 1 : idx + 1;
+        const newIdx = msg.direction === 'up' ? idx - 1 : idx + 1;
         if (newIdx >= 0 && newIdx < state.edits.length) {
           const tmp = state.edits[idx];
           state.edits[idx] = state.edits[newIdx];
@@ -274,13 +281,17 @@ window.addEventListener('message', (event: MessageEvent) => {
       break;
     }
 
-    case 'copySingle':
-      handleCopySingle(data.editId);
+    case 'copySingle': {
+      const msg = data as Extract<PanelFromIframeMessage, { type: 'copySingle' }>;
+      handleCopySingle(msg.editId);
       break;
+    }
 
-    case 'setActiveEdit':
-      activeEditId = data.editId;
+    case 'setActiveEdit': {
+      const msg = data as Extract<PanelFromIframeMessage, { type: 'setActiveEdit' }>;
+      activeEditId = msg.editId;
       break;
+    }
   }
 });
 
