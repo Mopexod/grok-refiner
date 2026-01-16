@@ -231,21 +231,21 @@ function createFloatingButton(): HTMLElement {
 }
 
 window.addEventListener('message', (event: MessageEvent) => {
-  // Безопасное извлечение данных
-  const rawData = event.data;
-  if (!rawData || typeof rawData !== 'object' || rawData.source !== 'grokRefiner_panel') {
+  // Самая безопасная проверка сообщения
+  const data = event.data;
+  if (!data || typeof data !== 'object' || data.source !== 'grokRefiner_panel') {
     return;
   }
 
-  const data = rawData as PanelFromIframeMessage;
-  
-  switch (data.type) {
+  // После этой проверки TS будет знать, что data имеет тип PanelFromIframeMessage
+  const msg = data as PanelFromIframeMessage;
+
+  switch (msg.type) {
     case 'requestState':
       sendStateToPanel();
       break;
 
     case 'updateEdit': {
-      const msg = data as Extract<PanelFromIframeMessage, { type: 'updateEdit' }>;
       const edit = state.edits.find((e) => e.id === msg.editId);
       if (edit) {
         Object.assign(edit, msg.changes);
@@ -255,7 +255,6 @@ window.addEventListener('message', (event: MessageEvent) => {
     }
 
     case 'deleteEdit': {
-      const msg = data as Extract<PanelFromIframeMessage, { type: 'deleteEdit' }>;
       state.edits = state.edits.filter((e) => e.id !== msg.editId);
       if (activeEditId === msg.editId) {
         activeEditId = null;
@@ -266,7 +265,6 @@ window.addEventListener('message', (event: MessageEvent) => {
     }
 
     case 'moveEdit': {
-      const msg = data as Extract<PanelFromIframeMessage, { type: 'moveEdit' }>;
       const idx = state.edits.findIndex((e) => e.id === msg.editId);
       if (idx !== -1) {
         const newIdx = msg.direction === 'up' ? idx - 1 : idx + 1;
@@ -282,13 +280,11 @@ window.addEventListener('message', (event: MessageEvent) => {
     }
 
     case 'copySingle': {
-      const msg = data as Extract<PanelFromIframeMessage, { type: 'copySingle' }>;
       handleCopySingle(msg.editId);
       break;
     }
 
     case 'setActiveEdit': {
-      const msg = data as Extract<PanelFromIframeMessage, { type: 'setActiveEdit' }>;
       activeEditId = msg.editId;
       break;
     }
