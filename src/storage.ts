@@ -1,9 +1,9 @@
 // src/storage.ts
-import type { StoredState } from './types';
+import type { StoredState, PresetItem } from './types';
 
 const STORAGE_KEY = 'grokRefinerState';
 
-const DEFAULT_PRESETS = [
+const DEFAULT_PRESETS: PresetItem[] = [
   { id: '1', label: 'Grok Preset 1', text: 'Sample preset for Grok' },
 ];
 
@@ -30,16 +30,16 @@ export async function loadState(): Promise<StoredState> {
         }
 
         const stored = result[STORAGE_KEY];
-        if (!stored) {
+        if (!stored || typeof stored !== 'object') {
           resolve({ ...DEFAULT_STATE });
           return;
         }
 
         resolve({
-          edits: stored.edits ?? [],
-          presets: stored.presets ?? DEFAULT_PRESETS,
-          lastUsedPlatform: stored.lastUsedPlatform ?? 'grok',
-          collapsed: stored.collapsed ?? false,
+          edits: (stored.edits as any[]) ?? [],
+          presets: (stored.presets as any[]) ?? DEFAULT_PRESETS,
+          lastUsedPlatform: (stored.lastUsedPlatform as any) ?? 'grok',
+          collapsed: (stored.collapsed as boolean) ?? false,
         });
       });
     } catch (err) {

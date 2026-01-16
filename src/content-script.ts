@@ -232,57 +232,54 @@ function createFloatingButton(): HTMLElement {
 
 window.addEventListener('message', (event: MessageEvent) => {
   const data = event.data as PanelFromIframeMessage | undefined;
-  if (!data || data.source !== 'grokRefiner_panel') return;
+  if (!data || typeof data !== 'object' || !('source' in data) || data.source !== 'grokRefiner_panel') return;
 
-  if (data.type === 'requestState') {
-    sendStateToPanel();
-    return;
-  }
+  switch (data.type) {
+    case 'requestState':
+      sendStateToPanel();
+      break;
 
-  if (data.type === 'updateEdit') {
-    const edit = state.edits.find((e) => e.id === data.editId);
-    if (edit) {
-      Object.assign(edit, data.changes);
+    case 'updateEdit': {
+      const edit = state.edits.find((e) => e.id === data.editId);
+      if (edit) {
+        Object.assign(edit, data.changes);
+        saveState(state);
+        // Мы не вызываем rerenderPanel для updateEdit, чтобы сохранить фокус в iframe
+      }
+      break;
+    }
+
+    case 'deleteEdit':
+      state.edits = state.edits.filter((e) => e.id !== data.editId);
+      if (activeEditId === data.editId) {
+        activeEditId = null;
+      }
       saveState(state);
       rerenderPanel();
+      break;
+
+    case 'moveEdit': {
+      const idx = state.edits.findIndex((e) => e.id === data.editId);
+      if (idx !== -1) {
+        const newIdx = data.direction === 'up' ? idx - 1 : idx + 1;
+        if (newIdx >= 0 && newIdx < state.edits.length) {
+          const tmp = state.edits[idx];
+          state.edits[idx] = state.edits[newIdx];
+          state.edits[newIdx] = tmp;
+          saveState(state);
+          rerenderPanel();
+        }
+      }
+      break;
     }
-    return;
-  }
 
-  if (data.type === 'deleteEdit') {
-    state.edits = state.edits.filter((e) => e.id !== data.editId);
-    if (activeEditId === data.editId) {
-      activeEditId = null;
-    }
-    saveState(state);
-    rerenderPanel();
-    return;
-  }
+    case 'copySingle':
+      handleCopySingle(data.editId);
+      break;
 
-  if (data.type === 'moveEdit') {
-    const idx = state.edits.findIndex((e) => e.id === data.editId);
-    if (idx === -1) return;
-
-    const newIdx = data.direction === 'up' ? idx - 1 : idx + 1;
-    if (newIdx < 0 || newIdx >= state.edits.length) return;
-
-    const tmp = state.edits[idx];
-    state.edits[idx] = state.edits[newIdx];
-    state.edits[newIdx] = tmp;
-
-    saveState(state);
-    rerenderPanel();
-    return;
-  }
-
-  if (data.type === 'copySingle') {
-    handleCopySingle(data.editId);
-    return;
-  }
-
-  if (data.type === 'setActiveEdit') {
-    activeEditId = data.editId;
-    return;
+    case 'setActiveEdit':
+      activeEditId = data.editId;
+      break;
   }
 });
 
