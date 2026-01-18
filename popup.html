@@ -47,6 +47,45 @@
     a:hover {
       text-decoration: underline;
     }
+    .footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #374151;
+    }
+    .support-btn {
+      color: #f5f5f5;
+      font-size: 11px;
+      opacity: 0.7;
+      cursor: pointer;
+    }
+    .support-btn:hover {
+      opacity: 1;
+    }
+    .support-content {
+      display: none;
+      font-size: 10px;
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+    .support-content.visible {
+      display: block;
+    }
+    .wallet-item {
+      margin-bottom: 6px;
+    }
+    .wallet-label {
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .wallet-addr {
+      word-break: break-all;
+      background: #1c2331;
+      padding: 4px;
+      border-radius: 4px;
+      margin-top: 2px;
+      display: block;
+      user-select: all;
+    }
   </style>
 </head>
 <body>
@@ -56,6 +95,28 @@
     <span class="status-text">Active</span>
   </div>
   <p>Control surface for Grok. Pin fragments, refine iteratively.</p>
-  <a href="https://github.com/Mopexod/grok-refiner" target="_blank">GitHub →</a>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://github.com/Mopexod/grok-refiner" target="_blank">GitHub →</a>
+  </div>
+
+  <div class="footer">
+    <div class="support-btn" id="supportToggle">❤️ Support Project</div>
+    <div class="support-content" id="supportContent">
+      <div class="wallet-item">
+        <span class="wallet-label">USDT (TRC-20):</span>
+        <code class="wallet-addr">TZBZfZfC4mvN4KVAEwR76bW2JCGYdwdcTN</code>
+      </div>
+      <div class="wallet-item">
+        <span class="wallet-label">TON:</span>
+        <code class="wallet-addr">UQD-jREq1AwUJBWKcSQjJd7Lki-Hay0WceLwROu8VvSyJN0G</code>
+      </div>
+      <div class="wallet-item">
+        <span class="wallet-label">XMR:</span>
+        <code class="wallet-addr">84uqBgVtzq375fs7qfPhtLR5R3fLnmJkZSLdfCaLeenq2JUT6NMSiRTCQtbkS4NVpef5h9YKdhM148q4gWBKqzzx8MUjbSY</code>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
 </body>
 </html>
