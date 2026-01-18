@@ -4,7 +4,7 @@
   var GrokAdapter = {
     id: "grok",
     isMatch(location, _document) {
-      return location.hostname === "grok.com" || location.hostname.endsWith(".grok.com") || location.hostname === "x.com" && location.pathname.startsWith("/i/grok") || location.hostname.endsWith(".x.com") && location.pathname.startsWith("/i/grok");
+      return location.hostname === "grok.com" || location.hostname.endsWith(".grok.com") || location.hostname === "x.ai" || location.hostname.endsWith(".x.ai") || location.hostname === "x.com" && location.pathname.startsWith("/i/grok") || location.hostname.endsWith(".x.com") && location.pathname.startsWith("/i/grok");
     },
     getMessageContainers(root) {
       const result = [];
@@ -29,8 +29,12 @@
           mut.addedNodes.forEach((node) => {
             if (!(node instanceof HTMLElement))
               return;
-            const containers = this.getMessageContainers(node);
+            const selector = '[data-role="ai-message"], .ai-message, .grok-message';
+            const containers = node.querySelectorAll(selector);
             containers.forEach((c) => callback(c));
+            if (node.matches(selector)) {
+              callback(node);
+            }
           });
         }
       });

@@ -8,6 +8,8 @@ export const GrokAdapter: ChatPlatformAdapter = {
     return (
       location.hostname === 'grok.com' ||
       location.hostname.endsWith('.grok.com') ||
+      location.hostname === 'x.ai' ||
+      location.hostname.endsWith('.x.ai') ||
       (location.hostname === 'x.com' && location.pathname.startsWith('/i/grok')) ||
       (location.hostname.endsWith('.x.com') && location.pathname.startsWith('/i/grok'))
     );
@@ -41,8 +43,15 @@ export const GrokAdapter: ChatPlatformAdapter = {
         mut.addedNodes.forEach((node) => {
           if (!(node instanceof HTMLElement)) return;
 
-          const containers = this.getMessageContainers(node);
+          // Ищем контейнеры сообщений внутри добавленного узла
+          const selector = '[data-role="ai-message"], .ai-message, .grok-message';
+          const containers = node.querySelectorAll<HTMLElement>(selector);
           containers.forEach((c) => callback(c));
+          
+          // Также проверяем, не является ли сам узел контейнером
+          if (node.matches(selector)) {
+            callback(node);
+          }
         });
       }
     });
