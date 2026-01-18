@@ -69,5 +69,17 @@ Combine multiple edits into a single, structured prompt for maximum AI efficienc
 ## Conclusion
 Grok Refiner is a professional tool for precise, controlled work with AI responses. It eliminates manual copy-pasting, reduces errors, and allows you to manage the quality of every individual response fragment.
 
+## ❤️ Support Grok Refiner
+
+Crypto donations (preferred):
+
+- **USDT (TRC-20 on Tron - recommended, low fees)**: `TZBZfZfC4mvN4KVAEwR76bW2JCGYdwdcTN`
+- **Monero (XMR)**: `84uqBgVtzq375fs7qfPhtLR5R3fLnmJkZSLdfCaLeenq2JUT6NMSiRTCQtbkS4NVpef5h9YKdhM148q4gWBKqzzx8MUjbSY`
+- **Bitcoin (BTC)**: `bc1q4dpgjjmjaq8zpk2wg2s2dzl3r4dawgz8whmtv4`
+- **TON**: `EQB2FprctQ5Jbb558UXvjJXn_JMn_3-7c0gURDVfBnnj7tmN`  
+  (or send directly in Telegram to [@mopexodcod](https://t.me/mopexodcod) via [@wallet](https://t.me/wallet) bot)
+
+Thanks! 🚀
+
 ## License
 MIT
