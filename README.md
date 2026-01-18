@@ -15,6 +15,28 @@ Grok Refiner provides a separate workspace right in your browser. It allows you 
 4. **Insert to Chat**: The "To Chat" button inserts the "Quote + Comment" pair into Grok's input field.
 5. **Control**: The user manually sends the message — the extension does not submit requests automatically.
 
+## 📸 Screenshots
+
+### 1. Smart Text Selection
+The "Add Edit" button appears automatically when you select text in Grok.
+![Add Edit Button](screenshots/01-add-edit-button.png)
+
+### 2. Discreet Access
+The extension lives in a side "handle" that doesn't interfere with Grok's layout.
+![Extension Handle](screenshots/02-extension-handle.png)
+
+### 3. Edit Management
+Manage all your selected fragments and specific instructions in one clean panel.
+![Edit Panel Overview](screenshots/03-edit-panel-overview.png)
+
+### 4. Seamless Workflow
+Send precise instructions back to Grok with a single click.
+![To Chat Workflow](screenshots/04-to-chat-workflow.png)
+
+### 5. Aggregated Results
+Combine multiple edits into a single, structured prompt for maximum AI efficiency.
+![Aggregated Prompt](screenshots/05-aggregated-prompt.png)
+
 ## Technical Features
 - **Compatibility**: Works on grok.com and Grok within x.com.
 - **Isolation**: Uses an isolated iframe for stable operation without conflicts with the site interface.
