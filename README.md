@@ -73,35 +73,17 @@ Grok Refiner is a professional tool for precise, controlled work with AI respons
 
 Crypto donations (preferred):
 
-<table>
-<tr>
-<td width="25%" align="center">
-<b>USDT (TRC-20)</b><br>
-<sub>Recommended, low fees</sub><br><br>
-<img src="screenshots/qr-usdt.png" width="180"><br>
-<code>TZBZfZfC4mvN4KVAEwR76bW2JCGYdwdcTN</code>
-</td>
-<td width="25%" align="center">
-<b>Monero (XMR)</b><br>
-<sub>Privacy-focused</sub><br><br>
-<img src="screenshots/qr-xmr.png" width="180"><br>
-<code>84uqBgVtzq375fs7qfPhtLR5R3fLnmJkZSLdfCaLeenq2JUT6NMSiRTCQtbkS4NVpef5h9YKdhM148q4gWBKqzzx8MUjbSY</code>
-</td>
-<td width="25%" align="center">
-<b>Bitcoin (BTC)</b><br>
-<sub>Classic</sub><br><br>
-<img src="screenshots/qr-btc.png" width="180"><br>
-<code>bc1q4dpgjjmjaq8zpk2wg2s2dzl3r4dawgz8whmtv4</code>
-</td>
-<td width="25%" align="center">
-<b>TON</b><br>
-<sub>Telegram wallet</sub><br><br>
-<img src="screenshots/qr-ton.png" width="180"><br>
-<code>UQD-jREq1AwUJBWKcSQjJd7Lki-Hay0WceLwROu8VvSyJN0G</code><br>
-<sub>Send via <a href="https://t.me/mopexodcod">@mopexodcod</a> + <a href="https://t.me/wallet">@wallet</a> bot</sub>
-</td>
-</tr>
-</table>
+- **USDT (TRC-20 on Tron)** — recommended, low fees:  
+  `TZBZfZfC4mvN4KVAEwR76bW2JCGYdwdcTN`
+
+- **Monero (XMR)** — privacy-focused:  
+  `84uqBgVtzq375fs7qfPhtLR5R3fLnmJkZSLdfCaLeenq2JUT6NMSiRTCQtbkS4NVpef5h9YKdhM148q4gWBKqzzx8MUjbSY`
+
+- **Bitcoin (BTC)** — classic:  
+  `bc1q4dpgjjmjaq8zpk2wg2s2dzl3r4dawgz8whmtv4`
+
+- **TON** — via Telegram [@wallet](https://t.me/wallet) bot to [@mopexodcod](https://t.me/mopexodcod):  
+  `UQD-jREq1AwUJBWKcSQjJd7Lki-Hay0WceLwROu8VvSyJN0G`
 
 Thanks! 🚀
 
