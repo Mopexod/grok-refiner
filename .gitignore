@@ -23,3 +23,12 @@ Thumbs.db
 # Chrome Extension (если есть архивы)
 *.zip
 *.crx
+
+# Compiled bundles (users will build from source)
+content-script.js
+panel.js
+
+# Internal documentation
+ai_rules.md
+project_context.md
+START_HERE.md

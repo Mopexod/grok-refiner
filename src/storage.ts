@@ -56,15 +56,21 @@ export async function loadState(): Promise<StoredState> {
 }
 
 export function saveState(state: StoredState): void {
-  if (!chrome?.storage?.local) return;
+  // Проверяем наличие API и валидность контекста
+  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
 
   try {
     chrome.storage.local.set({ [STORAGE_KEY]: state }, () => {
-      if (chrome.runtime.lastError) {
-        console.warn('grokRefiner: storage set error', chrome.runtime.lastError);
+      const lastError = typeof chrome !== 'undefined' && chrome.runtime?.lastError;
+      if (lastError) {
+        // Игнорируем ошибку инвалидации контекста (это норма при обновлении)
+        if (lastError.message?.includes('context invalidated')) return;
+        console.warn('grokRefiner: storage set error', lastError);
       }
     });
-  } catch (err) {
+  } catch (err: any) {
+    // Игнорируем ту же ошибку в catch
+    if (err?.message?.includes('context invalidated')) return;
     console.warn('grokRefiner: storage set exception', err);
   }
 }

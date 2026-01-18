@@ -99,15 +99,20 @@
     });
   }
   function saveState(state2) {
-    if (!chrome?.storage?.local)
+    if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.local)
       return;
     try {
       chrome.storage.local.set({ [STORAGE_KEY]: state2 }, () => {
-        if (chrome.runtime.lastError) {
-          console.warn("grokRefiner: storage set error", chrome.runtime.lastError);
+        const lastError = typeof chrome !== "undefined" && chrome.runtime?.lastError;
+        if (lastError) {
+          if (lastError.message?.includes("context invalidated"))
+            return;
+          console.warn("grokRefiner: storage set error", lastError);
         }
       });
     } catch (err) {
+      if (err?.message?.includes("context invalidated"))
+        return;
       console.warn("grokRefiner: storage set exception", err);
     }
   }
@@ -123,11 +128,10 @@
       lines.push(`"${singleLineSnippet}"`);
       if (comment) {
         lines.push(comment);
-        lines.push("");
       }
       blocks.push(lines.join("\n"));
     });
-    return blocks.join("\n");
+    return blocks.join("\n\n");
   }
 
   // src/content-script.ts
@@ -402,9 +406,8 @@
     if (!input)
       return;
     if (input instanceof HTMLTextAreaElement || input instanceof HTMLInputElement) {
-      const current = input.value ?? "";
+      const current = (input.value ?? "").trimEnd();
       const combined = current ? `${current}
-
 
 ${text}` : text;
       input.value = combined;
@@ -415,9 +418,8 @@ ${text}` : text;
     }
     if (input.tagName.toLowerCase() === "textbox") {
       input.focus();
-      const currentText = input.textContent || "";
-      const textToInsert = currentText.trim() ? `${currentText}
-
+      const currentText = (input.textContent || "").trimEnd();
+      const textToInsert = currentText ? `${currentText}
 
 ${text}` : text;
       input.textContent = textToInsert;
@@ -435,8 +437,8 @@ ${text}` : text;
       range.collapse(false);
       selection.removeAllRanges();
       selection.addRange(range);
-      const textToInsert = input.textContent?.trim() ? `
-
+      const currentText = (input.textContent || "").trimEnd();
+      const textToInsert = currentText ? `
 
 ${text}` : text;
       try {
