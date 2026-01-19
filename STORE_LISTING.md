@@ -166,14 +166,14 @@ Yes, completely free
 - **Recommended:** 5 screenshots
 - **Size:** 1280x800 or 640x400 pixels
 - **Format:** PNG or JPG
-- **Current status:** Need to verify/recreate existing screenshots to match required dimensions
+- **Current status:** ✅ Created and unified (01.png, 02.png, 03.png)
 
 ### Promotional Images
 
 **Small Promotional Image (REQUIRED):**
 - **Size:** 440x280 pixels
 - **Format:** PNG or JPG
-- **Status:** ⚠️ Need to create
+- **Status:** ✅ Created (04.png)
 
 **Marquee Image (Optional, for featuring):**
 - **Size:** 1400x560 pixels
@@ -235,8 +235,8 @@ Before submitting to Chrome Web Store:
 - [x] Privacy Policy created and published on GitHub
 - [x] Single Purpose description prepared
 - [x] Store listing descriptions written
-- [ ] Screenshots verified/created (1280x800 or 640x400)
-- [ ] Small Promotional Image created (440x280)
+- [x] Screenshots verified/created (1280x800 or 640x400)
+- [x] Small Promotional Image created (440x280)
 - [ ] Extension tested on all supported domains (grok.com, x.ai, x.com)
 - [ ] All permissions are justified and documented
 - [ ] No console errors or warnings

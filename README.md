@@ -20,25 +20,17 @@ An unofficial Chrome extension for a more convenient experience with Grok from x
 
 ## 📸 Screenshots
 
-### 1. Smart Text Selection
-The "Add Edit" button appears automatically when you select text in Grok.
-![Add Edit Button](screenshots/01-add-edit-button.png)
+### 1. Full Workspace & Workflow
+Refiner for Grok adds a powerful side panel and floating tools to your chat. Select any text, click "Add Edit", and manage your instructions in one place.
+![Full Workspace](screenshots/01.png)
 
-### 2. Discreet Access
-The extension lives in a side "handle" that doesn't interfere with Grok's layout.
-![Extension Handle](screenshots/02-extension-handle.png)
+### 2. Stealth Mode
+The extension stays out of your way. When not in use, it collapses into a discreet handle that doesn't interfere with the Grok interface.
+![Stealth Mode](screenshots/02.png)
 
-### 3. Edit Management
-Manage all your selected fragments and specific instructions in one clean panel.
-![Edit Panel Overview](screenshots/03-edit-panel-overview.png)
-
-### 4. Seamless Workflow
-Send precise instructions back to Grok with a single click.
-![To Chat Workflow](screenshots/04-to-chat-workflow.png)
-
-### 5. Aggregated Results
-Combine multiple edits into a single, structured prompt for maximum AI efficiency.
-![Aggregated Prompt](screenshots/05-aggregated-prompt.png)
+### 3. Precision Editing
+Manage multiple fragments and send structured prompts back to Grok with a single click.
+![Precision Editing](screenshots/03.png)
 
 ## Technical Features
 - **Compatibility**: Works on grok.com and Grok within x.com.
