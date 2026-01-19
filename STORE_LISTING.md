@@ -1,6 +1,6 @@
 # Chrome Web Store Listing - Reference Guide
 
-This document contains all the texts and information needed to fill out the Chrome Web Store Developer Dashboard when publishing Grok Refiner.
+This document contains all the texts and information needed to fill out the Chrome Web Store Developer Dashboard when publishing Refiner for Grok.
 
 ---
 
@@ -10,7 +10,7 @@ This document contains all the texts and information needed to fill out the Chro
 
 **Extension Name:**
 ```
-Grok Refiner
+Refiner for Grok
 ```
 
 **Short Description** (up to 132 characters):
@@ -22,7 +22,11 @@ Professional control surface for iterative AI editing on Grok and X.com. Pin fra
 **Detailed Description:**
 
 ```
-Grok Refiner is a professional control surface for working with Grok AI responses. It solves the problem of iterative AI editing by letting you pin specific text fragments, add precise instructions, and send structured prompts back to the chat — without losing context or rewriting everything manually.
+Refiner for Grok is a professional control surface for working with Grok AI responses. It solves the problem of iterative AI editing by letting you pin specific text fragments, add precise instructions, and send structured prompts back to the chat — without losing context or rewriting everything manually.
+
+DISCLAIMER
+
+An unofficial Chrome extension for a more convenient experience with Grok from xAI. Not affiliated with xAI or Elon Musk.
 
 KEY FEATURES
 
@@ -60,7 +64,7 @@ HOW IT WORKS
 
 NO DATA COLLECTION
 
-Grok Refiner stores everything locally on your device. No analytics, no tracking, no external servers. Your conversations stay private.
+Refiner for Grok stores everything locally on your device. No analytics, no tracking, no external servers. Your conversations stay private.
 
 OPEN SOURCE
 
@@ -87,7 +91,9 @@ English (en)
 **Single Purpose Description:**
 
 ```
-Grok Refiner provides a control surface for iterative AI editing on Grok and X.com. It allows users to select text fragments from AI responses, add editing instructions, and send structured prompts back to the chat interface. All functionality is focused on improving the workflow of refining AI-generated content through precise, fragment-based editing.
+Refiner for Grok provides a control surface for iterative AI editing on Grok and X.com. It allows users to select text fragments from AI responses, add editing instructions, and send structured prompts back to the chat interface. All functionality is focused on improving the workflow of refining AI-generated content through precise, fragment-based editing.
+
+Disclaimer: An unofficial Chrome extension for a more convenient experience with Grok from xAI. Not affiliated with xAI or Elon Musk.
 ```
 
 ### Privacy Policy URL

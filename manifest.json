@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Grok Refiner",
+  "name": "Refiner for Grok",
   "description": "Professional control surface for iterative AI editing on Grok and X.com. Pin fragments, add precise instructions, manage revisions.",
   "version": "0.1.0",
   "permissions": ["storage", "clipboardWrite"],

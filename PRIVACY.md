@@ -1,18 +1,20 @@
-# Privacy Policy for Grok Refiner
+# Privacy Policy for Refiner for Grok
 
 **Last Updated:** January 19, 2026
 
 ## Overview
 
-Grok Refiner is a browser extension designed to enhance your interaction with Grok AI by allowing you to select text fragments from AI responses, add editing instructions, and send structured prompts back to the chat interface.
+Refiner for Grok is a browser extension designed to enhance your interaction with Grok AI by allowing you to select text fragments from AI responses, add editing instructions, and send structured prompts back to the chat interface.
 
-This Privacy Policy explains how Grok Refiner handles user data.
+This Privacy Policy explains how Refiner for Grok handles user data.
+
+**Disclaimer:** An unofficial Chrome extension for a more convenient experience with Grok from xAI. Not affiliated with xAI or Elon Musk.
 
 ## Data Collection and Usage
 
 ### What Data We Collect
 
-Grok Refiner collects and stores the following data **locally on your device only**:
+Refiner for Grok collects and stores the following data **locally on your device only**:
 
 1. **Text Fragments**: Portions of text you select from Grok AI responses
 2. **Your Comments**: Editing instructions or notes you add to selected fragments
@@ -37,7 +39,7 @@ All data is used exclusively to provide the extension's core functionality:
 
 ## Permissions Explanation
 
-Grok Refiner requests the following permissions:
+Refiner for Grok requests the following permissions:
 
 ### Required Permissions
 
@@ -85,7 +87,7 @@ You have full control over your data:
 
 ### How to Delete Your Data
 
-To completely remove all data stored by Grok Refiner:
+To completely remove all data stored by Refiner for Grok:
 
 1. Uninstall the extension from Chrome
 2. All locally stored data will be automatically deleted
@@ -93,7 +95,7 @@ To completely remove all data stored by Grok Refiner:
 Alternatively, to clear data while keeping the extension installed:
 
 1. Open Chrome's Extensions page (`chrome://extensions/`)
-2. Find "Grok Refiner"
+2. Find "Refiner for Grok"
 3. Click "Details"
 4. Scroll to "Site settings"
 5. Click "Clear storage"
@@ -126,7 +128,7 @@ This extension complies with:
 
 **In plain language:**
 
-Grok Refiner is a simple productivity tool that:
+Refiner for Grok is a simple productivity tool that:
 - Stores your text selections and notes **only on your computer**
 - Does **not** send any data anywhere
 - Does **not** track you

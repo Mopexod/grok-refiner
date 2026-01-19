@@ -1,12 +1,15 @@
-# Grok Refiner
+# Refiner for Grok
 
-Grok Refiner is a Chrome extension that adds a control layer on top of Grok's interfaces. It is designed for users who work with AI on texts, code, and data on grok.com and Grok integrated into x.com.
+Refiner for Grok is a Chrome extension that adds a control layer on top of Grok's interfaces. It is designed for users who work with AI on texts, code, and data on grok.com and Grok integrated into x.com.
 
 ## Problem
 When working with Grok, you often need to refine specific fragments of a response rather than the entire output. Attempting to do this directly in chat leads to the AI changing things you didn't want changed, losing discussion context, and forcing manual copy-pasting that clutters the clipboard.
 
 ## Solution
-Grok Refiner provides a separate workspace right in your browser. It allows you to isolate selected text fragments, prepare precise instructions for each fragment, and avoid interfering with the main AI conversation flow.
+Refiner for Grok provides a separate workspace right in your browser. It allows you to isolate selected text fragments, prepare precise instructions for each fragment, and avoid interfering with the main AI conversation flow.
+
+## Disclaimer
+An unofficial Chrome extension for a more convenient experience with Grok from xAI. Not affiliated with xAI or Elon Musk.
 
 ## Workflow
 1. **Select Text**: User selects any text on the Grok page, and a contextual "Add Edit" button appears next to the selection.
@@ -67,9 +70,9 @@ Combine multiple edits into a single, structured prompt for maximum AI efficienc
    - Select the `grok-refiner` project folder
 
 ## Conclusion
-Grok Refiner is a professional tool for precise, controlled work with AI responses. It eliminates manual copy-pasting, reduces errors, and allows you to manage the quality of every individual response fragment.
+Refiner for Grok is a professional tool for precise, controlled work with AI responses. It eliminates manual copy-pasting, reduces errors, and allows you to manage the quality of every individual response fragment.
 
-## ❤️ Support Grok Refiner
+## ❤️ Support Refiner for Grok
 
 Crypto donations (preferred):
 
