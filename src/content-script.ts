@@ -62,7 +62,7 @@ function setupPanelIframe() {
 
   const handle = document.createElement('div');
   handle.id = 'grok-refiner-panel-handle';
-  handle.textContent = 'GR';
+  handle.textContent = 'R4G';
 
   const iframe = document.createElement('iframe');
   iframe.id = 'grok-refiner-panel-iframe';
