@@ -163,7 +163,7 @@
       header.className = "panel-header";
       const title = document.createElement("div");
       title.className = "panel-title";
-      title.textContent = "Grok Refiner";
+      title.textContent = "Refiner for Grok";
       header.appendChild(title);
       root.appendChild(header);
       const content = document.createElement("div");
