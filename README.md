@@ -26,11 +26,11 @@ Refiner for Grok adds a powerful side panel and floating tools to your chat. Sel
 
 ### 2. Stealth Mode
 The extension stays out of your way. When not in use, it collapses into a discreet handle that doesn't interfere with the Grok interface.
-![Stealth Mode](screenshots/02.png)
+![Stealth Mode](screenshots/03.png)
 
 ### 3. Precision Editing
 Manage multiple fragments and send structured prompts back to Grok with a single click.
-![Precision Editing](screenshots/03.png)
+![Precision Editing](screenshots/02.png)
 
 ## Technical Features
 - **Compatibility**: Works on grok.com and Grok within x.com.
